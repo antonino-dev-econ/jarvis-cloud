@@ -23,7 +23,7 @@ model = genai.GenerativeModel('models/gemma-3-4b-it')
 
 app = FastAPI()
 
-@app.api_route("/", methods=["GET",""HEAD"])
+@app.api_route("/", methods=["GET","HEAD"])
 def home():
     return {"status": "Jarvis Cloud is Online"}
 
