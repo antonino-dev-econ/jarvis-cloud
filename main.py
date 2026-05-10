@@ -19,7 +19,7 @@ else:
 genai.configure(api_key=api_key)
 
 # 3. MODELLO: Usiamo 2.0-flash per il primo test, è il più stabile per i nuovi account
-model = genai.GenerativeModel('models/gemma-3-4b-it')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 app = FastAPI()
 
