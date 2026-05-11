@@ -43,15 +43,21 @@ import io
 @app.post("/vision")
 async def vision_analyze(prompt: str, file: UploadFile = File(...)):
     try:
-        # Legge l'immagine inviata dal PC
         request_object_content = await file.read()
         img = PIL.Image.open(io.BytesIO(request_object_content))
         
-        # Invia testo + immagine a Gemini 2.0 Flash
+        # Chiamiamo Gemini
         response = model.generate_content([prompt, img])
+        
+        # CONTROLLO CRITICO: Se Gemini non risponde, cerchiamo di capire perché
+        if not response.text:
+            return {"response": "Gemini ha visto l'immagine ma non ha generato testo. Prova a cambiare inquadratura."}
+            
         return {"response": response.text}
     except Exception as e:
-        return {"error": str(e)}
+        # Questo ci dirà nei log di Render l'errore esatto (es. Filtri di sicurezza)
+        print(f"ERRORE VISION: {str(e)}")
+        return {"response": f"Errore interno: {str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn
