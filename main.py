@@ -36,6 +36,23 @@ def ask_jarvis(prompt: str):
         # Questo ci dirà esattamente perché Google rifiuta la richiesta
         return {"error": str(e)}
 
+from fastapi import File, UploadFile
+import PIL.Image
+import io
+
+@app.post("/vision")
+async def vision_analyze(prompt: str, file: UploadFile = File(...)):
+    try:
+        # Legge l'immagine inviata dal PC
+        request_object_content = await file.read()
+        img = PIL.Image.open(io.BytesIO(request_object_content))
+        
+        # Invia testo + immagine a Gemini 2.0 Flash
+        response = model.generate_content([prompt, img])
+        return {"response": response.text}
+    except Exception as e:
+        return {"error": str(e)}
+
 if __name__ == "__main__":
     import uvicorn
     # Avvia il server sulla porta 8080
