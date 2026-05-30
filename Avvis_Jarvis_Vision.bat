@@ -1,5 +1,5 @@
 @echo off
 title JARVIS INTERFACCIA
-cd /d "C:\Users\WorkStation\Desktop\Jarvis-cloud"
-"C:\Users\WorkStation\Desktop\Jarvis-cloud\venv\Scripts\python.exe" jarvis_vision.py
+cd /d "%~dp0"
+"%~dp0venv\Scripts\python.exe" jarvis_vision.py
 pause
